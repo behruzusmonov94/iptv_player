@@ -33,6 +33,8 @@ public:
 
     Q_INVOKABLE void loadPlaylist(const QString &filePath);
     Q_INVOKABLE void filterChannels(const QString &category, const QString &searchQuery);
+    Q_INVOKABLE QUrl getChannelUrl(int index) const;
+    Q_INVOKABLE QString getChannelName(int index) const;
 
     QStringList categories() const;
 

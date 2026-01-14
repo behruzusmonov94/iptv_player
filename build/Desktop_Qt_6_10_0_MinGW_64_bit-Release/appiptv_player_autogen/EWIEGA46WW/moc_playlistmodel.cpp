@@ -46,6 +46,10 @@ template <> constexpr inline auto PlaylistModel::qt_create_metaobjectdata<qt_met
         "filterChannels",
         "category",
         "searchQuery",
+        "getChannelUrl",
+        "QUrl",
+        "index",
+        "getChannelName",
         "categories"
     };
 
@@ -60,10 +64,18 @@ template <> constexpr inline auto PlaylistModel::qt_create_metaobjectdata<qt_met
         QtMocHelpers::MethodData<void(const QString &, const QString &)>(5, 2, QMC::AccessPublic, QMetaType::Void, {{
             { QMetaType::QString, 6 }, { QMetaType::QString, 7 },
         }}),
+        // Method 'getChannelUrl'
+        QtMocHelpers::MethodData<QUrl(int) const>(8, 2, QMC::AccessPublic, 0x80000000 | 9, {{
+            { QMetaType::Int, 10 },
+        }}),
+        // Method 'getChannelName'
+        QtMocHelpers::MethodData<QString(int) const>(11, 2, QMC::AccessPublic, QMetaType::QString, {{
+            { QMetaType::Int, 10 },
+        }}),
     };
     QtMocHelpers::UintData qt_properties {
         // property 'categories'
-        QtMocHelpers::PropertyData<QStringList>(8, QMetaType::QStringList, QMC::DefaultPropertyFlags, 0),
+        QtMocHelpers::PropertyData<QStringList>(12, QMetaType::QStringList, QMC::DefaultPropertyFlags, 0),
     };
     QtMocHelpers::UintData qt_enums {
     };
@@ -88,6 +100,10 @@ void PlaylistModel::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _i
         case 0: _t->categoriesChanged(); break;
         case 1: _t->loadPlaylist((*reinterpret_cast<std::add_pointer_t<QString>>(_a[1]))); break;
         case 2: _t->filterChannels((*reinterpret_cast<std::add_pointer_t<QString>>(_a[1])),(*reinterpret_cast<std::add_pointer_t<QString>>(_a[2]))); break;
+        case 3: { QUrl _r = _t->getChannelUrl((*reinterpret_cast<std::add_pointer_t<int>>(_a[1])));
+            if (_a[0]) *reinterpret_cast<QUrl*>(_a[0]) = std::move(_r); }  break;
+        case 4: { QString _r = _t->getChannelName((*reinterpret_cast<std::add_pointer_t<int>>(_a[1])));
+            if (_a[0]) *reinterpret_cast<QString*>(_a[0]) = std::move(_r); }  break;
         default: ;
         }
     }
@@ -123,14 +139,14 @@ int PlaylistModel::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 3)
+        if (_id < 5)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 3;
+        _id -= 5;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 3)
+        if (_id < 5)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 3;
+        _id -= 5;
     }
     if (_c == QMetaObject::ReadProperty || _c == QMetaObject::WriteProperty
             || _c == QMetaObject::ResetProperty || _c == QMetaObject::BindableProperty

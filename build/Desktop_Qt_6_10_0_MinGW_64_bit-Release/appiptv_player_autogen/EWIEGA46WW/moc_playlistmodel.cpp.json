@@ -33,6 +33,34 @@
                     "lineNumber": 35,
                     "name": "filterChannels",
                     "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "index",
+                            "type": "int"
+                        }
+                    ],
+                    "index": 3,
+                    "isConst": true,
+                    "lineNumber": 36,
+                    "name": "getChannelUrl",
+                    "returnType": "QUrl"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "index",
+                            "type": "int"
+                        }
+                    ],
+                    "index": 4,
+                    "isConst": true,
+                    "lineNumber": 37,
+                    "name": "getChannelName",
+                    "returnType": "QString"
                 }
             ],
             "object": true,
@@ -58,7 +86,7 @@
                 {
                     "access": "public",
                     "index": 0,
-                    "lineNumber": 40,
+                    "lineNumber": 42,
                     "name": "categoriesChanged",
                     "returnType": "void"
                 }

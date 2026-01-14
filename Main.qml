@@ -223,59 +223,204 @@ Window {
                                 
                                 MouseArea {
                                     anchors.fill: parent
-                                    hoverEnabled: true // To detect mouseX before press if needed, though drag works without
                                     
                                     property real lastY: 0
+                                    property real lastX: 0
+                                    property real startX: 0
+                                    property real startY: 0
+                                    property bool isPressed: false
                                     property bool isVolumeDrag: false
+                                    property bool isChannelDrag: false
+                                    property bool isWindowMove: false
+                                    property real minDragDistance: 50 // Minimum distance for channel switching
+                                    property int lastSwitchedIndex: -1 // To prevent multiple switches during drag
+                                    property string dragMode: "" // "volume", "channel", "window"
+                                    property bool isDoubleClick: false // Track if double click happened
                                     
-                                    // Logic: 
-                                    // If Fullscreen: Left side = Window Drag, Right side = Volume
-                                    // If Normal: All side = Volume (since Window Drag isn't needed here, or strictly Volume?)
-                                    // User said "video ustiga...". Let's enable Volume everywhere in Normal mode.
-                                    // But wait, in Normal mode, we don't drag window via Video.
-                                    // So: 
-                                    // drag.target: mainWindow // THIS DOES NOT WORK for Windows
-                                    
-                                    onPressed: (mouse) => {
-                                        lastY = mouse.y
-                                        
-                                        // Logic:
-                                        // Left side + Fullscreen = Move Window
-                                        // Right side OR Normal mode = Volume
-                                        
-                                        if (isFullScreenMode && mouse.x < width * 0.5) {
-                                            mainWindow.startSystemMove()
-                                        } else {
-                                            isVolumeDrag = true
-                                            volumeOverlay.visible = true
+                                    // Function to switch to next channel
+                                    function nextChannel() {
+                                        if (channelListView.count > 0) {
+                                            var nextIndex = channelListView.currentIndex + 1
+                                            if (nextIndex >= channelListView.count) {
+                                                nextIndex = 0 // Loop to first channel
+                                            }
+                                            if (nextIndex !== lastSwitchedIndex) {
+                                                lastSwitchedIndex = nextIndex
+                                                channelListView.currentIndex = nextIndex
+                                                var channelUrl = playlistModel.getChannelUrl(nextIndex)
+                                                if (channelUrl.toString() !== "") {
+                                                    player.source = channelUrl
+                                                    player.play()
+                                                    // Show channel name overlay
+                                                    channelOverlay.showChannel(nextIndex)
+                                                }
+                                            }
                                         }
                                     }
                                     
-                                    onReleased: {
+                                    // Function to switch to previous channel
+                                    function previousChannel() {
+                                        if (channelListView.count > 0) {
+                                            var prevIndex = channelListView.currentIndex - 1
+                                            if (prevIndex < 0) {
+                                                prevIndex = channelListView.count - 1 // Loop to last channel
+                                            }
+                                            if (prevIndex !== lastSwitchedIndex) {
+                                                lastSwitchedIndex = prevIndex
+                                                channelListView.currentIndex = prevIndex
+                                                var channelUrl = playlistModel.getChannelUrl(prevIndex)
+                                                if (channelUrl.toString() !== "") {
+                                                    player.source = channelUrl
+                                                    player.play()
+                                                    // Show channel name overlay
+                                                    channelOverlay.showChannel(prevIndex)
+                                                }
+                                            }
+                                        }
+                                    }
+                                    
+                                    onPressed: (mouse) => {
+                                        isPressed = true
+                                        lastY = mouse.y
+                                        lastX = mouse.x
+                                        startX = mouse.x
+                                        startY = mouse.y
                                         isVolumeDrag = false
+                                        isChannelDrag = false
+                                        isWindowMove = false
+                                        dragMode = ""
+                                        lastSwitchedIndex = -1
+                                        isDoubleClick = false // Reset double click flag
+                                    }
+                                    
+                                    onReleased: (mouse) => {
+                                        isPressed = false
+                                        
+                                        var deltaX = Math.abs(mouse.x - startX)
+                                        var deltaY = Math.abs(mouse.y - startY)
+                                        
+                                        // Don't process channel switching if:
+                                        // 1. Double click happened
+                                        // 2. Movement is very small (likely a click or double click, not a drag)
+                                        if (isDoubleClick || (deltaX < 10 && deltaY < 10)) {
+                                            // Reset states and return - this was a click, not a drag
+                                            isVolumeDrag = false
+                                            isChannelDrag = false
+                                            isWindowMove = false
+                                            dragMode = ""
+                                            volumeOverlay.visible = false
+                                            lastSwitchedIndex = -1
+                                            return
+                                        }
+                                        
+                                        // If no drag mode was detected during drag, check for final drag gesture on release
+                                        // This handles cases where drag didn't reach threshold during movement
+                                        if (dragMode === "") {
+                                            // Horizontal drag - channel switching (only if not vertical drag)
+                                            // Left swipe = next channel, Right swipe = previous channel
+                                            if (deltaX > minDragDistance && deltaX > deltaY * 1.5) {
+                                                var switchIndex = -1
+                                                if (mouse.x < startX) {
+                                                    // Swiped left = next channel
+                                                    if (channelListView.count > 0) {
+                                                        switchIndex = channelListView.currentIndex + 1
+                                                        if (switchIndex >= channelListView.count) {
+                                                            switchIndex = 0
+                                                        }
+                                                        nextChannel() // This will show overlay
+                                                    }
+                                                } else {
+                                                    // Swiped right = previous channel
+                                                    if (channelListView.count > 0) {
+                                                        switchIndex = channelListView.currentIndex - 1
+                                                        if (switchIndex < 0) {
+                                                            switchIndex = channelListView.count - 1
+                                                        }
+                                                        previousChannel() // This will show overlay
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        
+                                        // Reset all states
+                                        isVolumeDrag = false
+                                        isChannelDrag = false
+                                        isWindowMove = false
+                                        dragMode = ""
                                         volumeOverlay.visible = false
+                                        lastSwitchedIndex = -1
                                     }
                                     
                                     onPositionChanged: (mouse) => {
-                                        if (isVolumeDrag) {
-                                            var delta = lastY - mouse.y
-                                            // Sensitivity: full height = 1.0 (100%) change?
-                                            // Let's say 2 pixels = 1% volume => 0.01
-                                            var change = delta / height * 2.0 // Factor 2.0 speed
+                                        // CRITICAL: Only process if mouse is actually pressed
+                                        if (!isPressed) {
+                                            return
+                                        }
+                                        
+                                        var deltaX = mouse.x - lastX
+                                        var deltaY = mouse.y - lastY
+                                        var totalDeltaX = Math.abs(mouse.x - startX)
+                                        var totalDeltaY = Math.abs(mouse.y - startY)
+                                        
+                                        // Determine drag mode only once when threshold is reached
+                                        if (dragMode === "") {
+                                            // Priority 1: Fullscreen + left side + horizontal = window move
+                                            if (isFullScreenMode && startX < width * 0.5) {
+                                                if (totalDeltaX > 30 && totalDeltaX > totalDeltaY * 1.2) {
+                                                    dragMode = "window"
+                                                    isWindowMove = true
+                                                    mainWindow.startSystemMove()
+                                                    return // Window move started, exit
+                                                }
+                                            }
                                             
-                                            // Update volume
+                                            // Priority 2: Vertical drag = volume control
+                                            if (totalDeltaY > 15 && totalDeltaY > totalDeltaX) {
+                                                dragMode = "volume"
+                                                isVolumeDrag = true
+                                                volumeOverlay.visible = true
+                                                lastY = startY // Reset for accurate volume calculation
+                                            }
+                                            // Priority 3: Horizontal drag (not fullscreen left side) = channel switch
+                                            else if (!(isFullScreenMode && startX < width * 0.5) && 
+                                                     totalDeltaX > minDragDistance && 
+                                                     totalDeltaX > totalDeltaY * 1.5) {
+                                                dragMode = "channel"
+                                                isChannelDrag = true
+                                                
+                                                // Switch channel only once when drag mode is detected
+                                                // Left swipe = next channel, Right swipe = previous channel
+                                                if (deltaX < -10) {
+                                                    nextChannel() // Swiped left = next channel
+                                                } else if (deltaX > 10) {
+                                                    previousChannel() // Swiped right = previous channel
+                                                }
+                                            }
+                                        }
+                                        
+                                        // Handle volume control (only if volume mode is active)
+                                        if (dragMode === "volume" && isVolumeDrag) {
+                                            var delta = lastY - mouse.y
+                                            var change = delta / height * 2.0
+                                            
                                             var newVol = player.audioOutput.volume + change
                                             if (newVol > 1.0) newVol = 1.0
                                             if (newVol < 0.0) newVol = 0.0
                                             
                                             player.audioOutput.volume = newVol
-                                            volumeSlider.value = newVol // Sync slider
+                                            volumeSlider.value = newVol
                                             
                                             lastY = mouse.y
                                         }
+                                        
+                                        // Note: Channel switching happens only once when dragMode is set to "channel"
+                                        // No continuous channel switching during drag
                                     }
                                     
-                                    onDoubleClicked: isFullScreenMode = !isFullScreenMode
+                                    onDoubleClicked: {
+                                        isDoubleClick = true // Set flag to prevent channel switching
+                                        isFullScreenMode = !isFullScreenMode
+                                    }
                                 }
 
                                 // Volume Overlay
@@ -304,6 +449,43 @@ Window {
                                             font.bold: true
                                             Layout.alignment: Qt.AlignHCenter
                                         }
+                                    }
+                                }
+                                
+                                // Channel Name Overlay (bottom center)
+                                Rectangle {
+                                    id: channelOverlay
+                                    anchors.horizontalCenter: parent.horizontalCenter
+                                    anchors.bottom: parent.bottom
+                                    anchors.bottomMargin: 40
+                                    width: Math.min(parent.width - 40, channelNameText.implicitWidth + 40)
+                                    height: channelNameText.implicitHeight + 20
+                                    color: "#cc000000" // Semi-transparent black
+                                    radius: 8
+                                    visible: false
+                                    
+                                    property Timer hideTimer: Timer {
+                                        interval: 3000 // 3 seconds
+                                        onTriggered: channelOverlay.visible = false
+                                    }
+                                    
+                                    function showChannel(index) {
+                                        var channelName = playlistModel.getChannelName(index)
+                                        channelNameText.text = channelName
+                                        visible = true
+                                        hideTimer.restart() // Restart timer, will hide after 3 seconds
+                                    }
+                                    
+                                    Text {
+                                        id: channelNameText
+                                        anchors.centerIn: parent
+                                        text: ""
+                                        color: "white"
+                                        font.pixelSize: 18
+                                        font.bold: true
+                                        elide: Text.ElideRight
+                                        width: parent.width - 20
+                                        horizontalAlignment: Text.AlignHCenter
                                     }
                                 }
                             }

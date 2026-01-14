@@ -146,3 +146,19 @@ void PlaylistModel::filterChannels(const QString &category, const QString &searc
     }
     endResetModel();
 }
+
+QUrl PlaylistModel::getChannelUrl(int index) const
+{
+    if (index >= 0 && index < m_displayedChannels.count()) {
+        return m_displayedChannels[index].url;
+    }
+    return QUrl();
+}
+
+QString PlaylistModel::getChannelName(int index) const
+{
+    if (index >= 0 && index < m_displayedChannels.count()) {
+        return m_displayedChannels[index].name;
+    }
+    return QString();
+}
