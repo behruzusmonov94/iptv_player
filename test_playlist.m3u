@@ -1,0 +1,10 @@
+#EXTM3U
+#EXTINF:0 tvg-rec="0",Big Buck Bunny
+#EXTGRP:Animation
+http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4
+#EXTINF:0 tvg-rec="0",Elephant Dream
+#EXTGRP:Animation
+http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4
+#EXTINF:0 tvg-rec="0",For Bigger Blazes
+#EXTGRP:Action
+http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4

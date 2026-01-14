@@ -1,0 +1,13 @@
+<RCC>
+  <qresource prefix="/qt/qml/iptv_player/">
+    <file alias="Main.qml">C:/Users/user/Documents/iptv_player/Main.qml</file>
+    <file alias="icons/play.svg">C:/Users/user/Documents/iptv_player/icons/play.svg</file>
+    <file alias="icons/pause.svg">C:/Users/user/Documents/iptv_player/icons/pause.svg</file>
+    <file alias="icons/stop.svg">C:/Users/user/Documents/iptv_player/icons/stop.svg</file>
+    <file alias="icons/pin.svg">C:/Users/user/Documents/iptv_player/icons/pin.svg</file>
+    <file alias="icons/unpin.svg">C:/Users/user/Documents/iptv_player/icons/unpin.svg</file>
+    <file alias="icons/menu.svg">C:/Users/user/Documents/iptv_player/icons/menu.svg</file>
+    <file alias="icons/back.svg">C:/Users/user/Documents/iptv_player/icons/back.svg</file>
+  </qresource>
+</RCC>
+

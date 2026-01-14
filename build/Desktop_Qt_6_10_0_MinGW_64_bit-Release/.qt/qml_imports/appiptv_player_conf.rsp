@@ -1,0 +1,14 @@
+-rootPath
+C:/Users/user/Documents/iptv_player
+-cmake-output
+-output-file
+C:/Users/user/Documents/iptv_player/build/Desktop_Qt_6_10_0_MinGW_64_bit-Release/.qt/qml_imports/appiptv_player_conf.cmake
+-importPath
+C:/Users/user/Documents/iptv_player/build/Desktop_Qt_6_10_0_MinGW_64_bit-Release/iptv_player
+-importPath
+C:/Users/user/Documents/iptv_player/build/Desktop_Qt_6_10_0_MinGW_64_bit-Release
+-importPath
+C:/Qt/6.10.0/mingw_64/qml
+-qrcFiles
+C:/Users/user/Documents/iptv_player/build/Desktop_Qt_6_10_0_MinGW_64_bit-Release/.qt/rcc/qmake_iptv_player.qrc
+C:/Users/user/Documents/iptv_player/build/Desktop_Qt_6_10_0_MinGW_64_bit-Release/.qt/rcc/appiptv_player_raw_qml_0.qrc

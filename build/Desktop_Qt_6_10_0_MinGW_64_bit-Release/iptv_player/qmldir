@@ -1,0 +1,6 @@
+module iptv_player
+typeinfo appiptv_player.qmltypes
+prefer :/qt/qml/iptv_player/
+Main 254.0 Main.qml
+depends QtQuick
+

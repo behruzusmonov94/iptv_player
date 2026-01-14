@@ -1,0 +1,6 @@
+<RCC>
+  <qresource prefix="/qt/qml/iptv_player">
+    <file alias="qmldir">C:/Users/user/Documents/iptv_player/build/Desktop_Qt_6_10_0_MinGW_64_bit-Release/iptv_player/qmldir</file>
+  </qresource>
+</RCC>
+

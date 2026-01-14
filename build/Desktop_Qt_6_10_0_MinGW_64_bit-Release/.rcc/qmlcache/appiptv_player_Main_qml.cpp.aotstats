@@ -1,0 +1,855 @@
+{
+    "formatRevision": 1,
+    "modules": [
+        {
+            "moduleFiles": [
+                {
+                    "entries": [
+                        {
+                            "codegenResult": 0,
+                            "column": 12,
+                            "durationMicroseconds": 669,
+                            "functionName": "flags",
+                            "line": 19,
+                            "message": ""
+                        },
+                        {
+                            "codegenResult": 0,
+                            "column": 22,
+                            "durationMicroseconds": 81,
+                            "functionName": "nameFilters",
+                            "line": 40,
+                            "message": ""
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 21,
+                            "durationMicroseconds": 34,
+                            "functionName": "onAccepted",
+                            "line": 41,
+                            "message": "Cannot retrieve a non-object type by ID: playlistModel"
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 22,
+                            "durationMicroseconds": 0,
+                            "functionName": "initialItem",
+                            "line": 49,
+                            "message": "Could not find property \"initialItem\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 23,
+                            "durationMicroseconds": 0,
+                            "functionName": "fill",
+                            "line": 48,
+                            "message": "Could not find property \"fill\"."
+                        },
+                        {
+                            "codegenResult": 0,
+                            "column": 35,
+                            "durationMicroseconds": 38,
+                            "functionName": "fill",
+                            "line": 59,
+                            "message": ""
+                        },
+                        {
+                            "codegenResult": 0,
+                            "column": 43,
+                            "durationMicroseconds": 34,
+                            "functionName": "alignment",
+                            "line": 66,
+                            "message": ""
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 32,
+                            "durationMicroseconds": 25,
+                            "functionName": "model",
+                            "line": 75,
+                            "message": "Cannot access value for name playlistModel"
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 36,
+                            "durationMicroseconds": 0,
+                            "functionName": "width",
+                            "line": 78,
+                            "message": "Could not find property \"width\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 42,
+                            "durationMicroseconds": 0,
+                            "functionName": "highlighted",
+                            "line": 95,
+                            "message": "Could not find property \"highlighted\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 40,
+                            "durationMicroseconds": 0,
+                            "functionName": "onClicked",
+                            "line": 96,
+                            "message": "Could not find signal \"clicked\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 39,
+                            "durationMicroseconds": 162,
+                            "functionName": "text",
+                            "line": 82,
+                            "message": "Cannot access value for name modelData"
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 52,
+                            "durationMicroseconds": 99,
+                            "functionName": "verticalAlignment",
+                            "line": 85,
+                            "message": "Cannot access value for name Text"
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 40,
+                            "durationMicroseconds": 18,
+                            "functionName": "color",
+                            "line": 90,
+                            "message": "Cannot access value for name parent"
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 36,
+                            "durationMicroseconds": 0,
+                            "functionName": "onClicked",
+                            "line": 108,
+                            "message": "Could not find signal \"clicked\"."
+                        },
+                        {
+                            "codegenResult": 0,
+                            "column": 34,
+                            "durationMicroseconds": 32,
+                            "functionName": "videoOutput",
+                            "line": 123,
+                            "message": ""
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 33,
+                            "durationMicroseconds": 19,
+                            "functionName": "volume",
+                            "line": 125,
+                            "message": "Cannot retrieve a non-object type by ID: volumeSlider"
+                        },
+                        {
+                            "codegenResult": 0,
+                            "column": 35,
+                            "durationMicroseconds": 26,
+                            "functionName": "fill",
+                            "line": 130,
+                            "message": ""
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 30,
+                            "durationMicroseconds": 16,
+                            "functionName": "visible",
+                            "line": 136,
+                            "message": "Cannot access value for name isFullScreenMode"
+                        },
+                        {
+                            "codegenResult": 0,
+                            "column": 38,
+                            "durationMicroseconds": 22,
+                            "functionName": "fill",
+                            "line": 139,
+                            "message": ""
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 37,
+                            "durationMicroseconds": 0,
+                            "functionName": "display",
+                            "line": 145,
+                            "message": "Could not find property \"display\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 39,
+                            "durationMicroseconds": 0,
+                            "functionName": "onClicked",
+                            "line": 147,
+                            "message": "Could not find signal \"clicked\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 34,
+                            "durationMicroseconds": 15,
+                            "functionName": "text",
+                            "line": 151,
+                            "message": "Cannot access value for name categoryName"
+                        },
+                        {
+                            "codegenResult": 0,
+                            "column": 49,
+                            "durationMicroseconds": 32,
+                            "functionName": "horizontalAlignment",
+                            "line": 155,
+                            "message": ""
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 43,
+                            "durationMicroseconds": 0,
+                            "functionName": "onTextChanged",
+                            "line": 161,
+                            "message": "Could not find signal \"textChanged\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 38,
+                            "durationMicroseconds": 0,
+                            "functionName": "orientation",
+                            "line": 172,
+                            "message": "Could not find property \"orientation\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 38,
+                            "durationMicroseconds": 35,
+                            "functionName": "visible",
+                            "line": 180,
+                            "message": "Cannot access value for name mainWindow"
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 40,
+                            "durationMicroseconds": 15,
+                            "functionName": "model",
+                            "line": 185,
+                            "message": "Cannot access value for name playlistModel"
+                        },
+                        {
+                            "codegenResult": 0,
+                            "column": 47,
+                            "durationMicroseconds": 26,
+                            "functionName": "fill",
+                            "line": 184,
+                            "message": ""
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 44,
+                            "durationMicroseconds": 0,
+                            "functionName": "width",
+                            "line": 189,
+                            "message": "Could not find property \"width\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 43,
+                            "durationMicroseconds": 0,
+                            "functionName": "text",
+                            "line": 190,
+                            "message": "Could not find property \"text\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 50,
+                            "durationMicroseconds": 0,
+                            "functionName": "highlighted",
+                            "line": 204,
+                            "message": "Could not find property \"highlighted\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 48,
+                            "durationMicroseconds": 0,
+                            "functionName": "onClicked",
+                            "line": 205,
+                            "message": "Could not find signal \"clicked\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 47,
+                            "durationMicroseconds": 19,
+                            "functionName": "text",
+                            "line": 193,
+                            "message": "Cannot access value for name model"
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 48,
+                            "durationMicroseconds": 128,
+                            "functionName": "elide",
+                            "line": 196,
+                            "message": "Cannot access value for name Text"
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 60,
+                            "durationMicroseconds": 89,
+                            "functionName": "verticalAlignment",
+                            "line": 197,
+                            "message": "Cannot access value for name Text"
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 48,
+                            "durationMicroseconds": 15,
+                            "functionName": "color",
+                            "line": 201,
+                            "message": "Cannot access value for name parent"
+                        },
+                        {
+                            "codegenResult": 0,
+                            "column": 47,
+                            "durationMicroseconds": 29,
+                            "functionName": "fill",
+                            "line": 222,
+                            "message": ""
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 48,
+                            "durationMicroseconds": 84,
+                            "functionName": "onPressed",
+                            "line": 239,
+                            "message": "Cannot access value for name isFullScreenMode"
+                        },
+                        {
+                            "codegenResult": 0,
+                            "column": 48,
+                            "durationMicroseconds": 23,
+                            "functionName": "onPressed",
+                            "line": 239,
+                            "message": ""
+                        },
+                        {
+                            "codegenResult": 0,
+                            "column": 49,
+                            "durationMicroseconds": 76,
+                            "functionName": "onReleased",
+                            "line": 254,
+                            "message": ""
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 56,
+                            "durationMicroseconds": 149,
+                            "functionName": "onPositionChanged",
+                            "line": 259,
+                            "message": "Cannot retrieve a non-object type by ID: volumeSlider"
+                        },
+                        {
+                            "codegenResult": 0,
+                            "column": 56,
+                            "durationMicroseconds": 20,
+                            "functionName": "onPositionChanged",
+                            "line": 259,
+                            "message": ""
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 54,
+                            "durationMicroseconds": 37,
+                            "functionName": "onDoubleClicked",
+                            "line": 278,
+                            "message": "Cannot access value for name isFullScreenMode"
+                        },
+                        {
+                            "codegenResult": 0,
+                            "column": 51,
+                            "durationMicroseconds": 27,
+                            "functionName": "fill",
+                            "line": 225,
+                            "message": ""
+                        },
+                        {
+                            "codegenResult": 0,
+                            "column": 55,
+                            "durationMicroseconds": 24,
+                            "functionName": "centerIn",
+                            "line": 284,
+                            "message": ""
+                        },
+                        {
+                            "codegenResult": 0,
+                            "column": 59,
+                            "durationMicroseconds": 30,
+                            "functionName": "centerIn",
+                            "line": 292,
+                            "message": ""
+                        },
+                        {
+                            "codegenResult": 0,
+                            "column": 51,
+                            "durationMicroseconds": 181,
+                            "functionName": "text",
+                            "line": 301,
+                            "message": ""
+                        },
+                        {
+                            "codegenResult": 0,
+                            "column": 63,
+                            "durationMicroseconds": 41,
+                            "functionName": "alignment",
+                            "line": 305,
+                            "message": ""
+                        },
+                        {
+                            "codegenResult": 0,
+                            "column": 42,
+                            "durationMicroseconds": 78,
+                            "functionName": "visible",
+                            "line": 315,
+                            "message": ""
+                        },
+                        {
+                            "codegenResult": 0,
+                            "column": 51,
+                            "durationMicroseconds": 26,
+                            "functionName": "centerIn",
+                            "line": 312,
+                            "message": ""
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 34,
+                            "durationMicroseconds": 18,
+                            "functionName": "visible",
+                            "line": 325,
+                            "message": "Cannot access value for name isFullScreenMode"
+                        },
+                        {
+                            "codegenResult": 0,
+                            "column": 43,
+                            "durationMicroseconds": 29,
+                            "functionName": "fill",
+                            "line": 328,
+                            "message": ""
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 42,
+                            "durationMicroseconds": 0,
+                            "functionName": "display",
+                            "line": 335,
+                            "message": "Could not find property \"display\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 44,
+                            "durationMicroseconds": 0,
+                            "functionName": "onClicked",
+                            "line": 341,
+                            "message": "Could not find signal \"clicked\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 46,
+                            "durationMicroseconds": 0,
+                            "functionName": "source",
+                            "line": 333,
+                            "message": "Could not find property \"source\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 51,
+                            "durationMicroseconds": 17,
+                            "functionName": "color",
+                            "line": 339,
+                            "message": "Cannot access value for name parent"
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 50,
+                            "durationMicroseconds": 0,
+                            "functionName": "visible",
+                            "line": 342,
+                            "message": "Could not find property \"visible\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 47,
+                            "durationMicroseconds": 0,
+                            "functionName": "text",
+                            "line": 343,
+                            "message": "Could not find property \"text\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 42,
+                            "durationMicroseconds": 0,
+                            "functionName": "display",
+                            "line": 349,
+                            "message": "Could not find property \"display\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 44,
+                            "durationMicroseconds": 0,
+                            "functionName": "onClicked",
+                            "line": 355,
+                            "message": "Could not find signal \"clicked\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 45,
+                            "durationMicroseconds": 0,
+                            "functionName": "color",
+                            "line": 348,
+                            "message": "Could not find property \"color\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 51,
+                            "durationMicroseconds": 12,
+                            "functionName": "color",
+                            "line": 353,
+                            "message": "Cannot access value for name parent"
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 50,
+                            "durationMicroseconds": 0,
+                            "functionName": "visible",
+                            "line": 356,
+                            "message": "Could not find property \"visible\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 42,
+                            "durationMicroseconds": 0,
+                            "functionName": "display",
+                            "line": 365,
+                            "message": "Could not find property \"display\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 44,
+                            "durationMicroseconds": 0,
+                            "functionName": "onClicked",
+                            "line": 371,
+                            "message": "Could not find signal \"clicked\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 46,
+                            "durationMicroseconds": 0,
+                            "functionName": "source",
+                            "line": 361,
+                            "message": "Could not find property \"source\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 51,
+                            "durationMicroseconds": 12,
+                            "functionName": "color",
+                            "line": 369,
+                            "message": "Cannot access value for name parent"
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 42,
+                            "durationMicroseconds": 0,
+                            "functionName": "display",
+                            "line": 382,
+                            "message": "Could not find property \"display\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 44,
+                            "durationMicroseconds": 0,
+                            "functionName": "onClicked",
+                            "line": 388,
+                            "message": "Could not find signal \"clicked\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 51,
+                            "durationMicroseconds": 21,
+                            "functionName": "color",
+                            "line": 386,
+                            "message": "Cannot access value for name parent"
+                        },
+                        {
+                            "codegenResult": 0,
+                            "column": 22,
+                            "durationMicroseconds": 65,
+                            "functionName": "cursorShape",
+                            "line": 419,
+                            "message": ""
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 18,
+                            "durationMicroseconds": 13,
+                            "functionName": "enabled",
+                            "line": 420,
+                            "message": "Cannot access value for name isFullScreenMode"
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 18,
+                            "durationMicroseconds": 8,
+                            "functionName": "visible",
+                            "line": 421,
+                            "message": "Cannot access value for name isFullScreenMode"
+                        },
+                        {
+                            "codegenResult": 0,
+                            "column": 20,
+                            "durationMicroseconds": 108,
+                            "functionName": "onPressed",
+                            "line": 422,
+                            "message": ""
+                        },
+                        {
+                            "codegenResult": 0,
+                            "column": 26,
+                            "durationMicroseconds": 54,
+                            "functionName": "right",
+                            "line": 417,
+                            "message": ""
+                        },
+                        {
+                            "codegenResult": 0,
+                            "column": 45,
+                            "durationMicroseconds": 48,
+                            "functionName": "top",
+                            "line": 417,
+                            "message": ""
+                        },
+                        {
+                            "codegenResult": 0,
+                            "column": 65,
+                            "durationMicroseconds": 45,
+                            "functionName": "bottom",
+                            "line": 417,
+                            "message": ""
+                        },
+                        {
+                            "codegenResult": 0,
+                            "column": 22,
+                            "durationMicroseconds": 36,
+                            "functionName": "cursorShape",
+                            "line": 431,
+                            "message": ""
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 18,
+                            "durationMicroseconds": 15,
+                            "functionName": "enabled",
+                            "line": 432,
+                            "message": "Cannot access value for name isFullScreenMode"
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 18,
+                            "durationMicroseconds": 11,
+                            "functionName": "visible",
+                            "line": 433,
+                            "message": "Cannot access value for name isFullScreenMode"
+                        },
+                        {
+                            "codegenResult": 0,
+                            "column": 20,
+                            "durationMicroseconds": 80,
+                            "functionName": "onPressed",
+                            "line": 434,
+                            "message": ""
+                        },
+                        {
+                            "codegenResult": 0,
+                            "column": 25,
+                            "durationMicroseconds": 57,
+                            "functionName": "left",
+                            "line": 429,
+                            "message": ""
+                        },
+                        {
+                            "codegenResult": 0,
+                            "column": 43,
+                            "durationMicroseconds": 55,
+                            "functionName": "top",
+                            "line": 429,
+                            "message": ""
+                        },
+                        {
+                            "codegenResult": 0,
+                            "column": 63,
+                            "durationMicroseconds": 39,
+                            "functionName": "bottom",
+                            "line": 429,
+                            "message": ""
+                        },
+                        {
+                            "codegenResult": 0,
+                            "column": 22,
+                            "durationMicroseconds": 30,
+                            "functionName": "cursorShape",
+                            "line": 443,
+                            "message": ""
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 18,
+                            "durationMicroseconds": 11,
+                            "functionName": "enabled",
+                            "line": 444,
+                            "message": "Cannot access value for name isFullScreenMode"
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 18,
+                            "durationMicroseconds": 9,
+                            "functionName": "visible",
+                            "line": 445,
+                            "message": "Cannot access value for name isFullScreenMode"
+                        },
+                        {
+                            "codegenResult": 0,
+                            "column": 20,
+                            "durationMicroseconds": 73,
+                            "functionName": "onPressed",
+                            "line": 446,
+                            "message": ""
+                        },
+                        {
+                            "codegenResult": 0,
+                            "column": 25,
+                            "durationMicroseconds": 44,
+                            "functionName": "left",
+                            "line": 441,
+                            "message": ""
+                        },
+                        {
+                            "codegenResult": 0,
+                            "column": 45,
+                            "durationMicroseconds": 53,
+                            "functionName": "right",
+                            "line": 441,
+                            "message": ""
+                        },
+                        {
+                            "codegenResult": 0,
+                            "column": 67,
+                            "durationMicroseconds": 39,
+                            "functionName": "bottom",
+                            "line": 441,
+                            "message": ""
+                        },
+                        {
+                            "codegenResult": 0,
+                            "column": 22,
+                            "durationMicroseconds": 32,
+                            "functionName": "cursorShape",
+                            "line": 455,
+                            "message": ""
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 18,
+                            "durationMicroseconds": 12,
+                            "functionName": "enabled",
+                            "line": 456,
+                            "message": "Cannot access value for name isFullScreenMode"
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 18,
+                            "durationMicroseconds": 9,
+                            "functionName": "visible",
+                            "line": 457,
+                            "message": "Cannot access value for name isFullScreenMode"
+                        },
+                        {
+                            "codegenResult": 0,
+                            "column": 20,
+                            "durationMicroseconds": 108,
+                            "functionName": "onPressed",
+                            "line": 458,
+                            "message": ""
+                        },
+                        {
+                            "codegenResult": 0,
+                            "column": 25,
+                            "durationMicroseconds": 50,
+                            "functionName": "left",
+                            "line": 453,
+                            "message": ""
+                        },
+                        {
+                            "codegenResult": 0,
+                            "column": 45,
+                            "durationMicroseconds": 39,
+                            "functionName": "right",
+                            "line": 453,
+                            "message": ""
+                        },
+                        {
+                            "codegenResult": 0,
+                            "column": 64,
+                            "durationMicroseconds": 58,
+                            "functionName": "top",
+                            "line": 453,
+                            "message": ""
+                        },
+                        {
+                            "codegenResult": 0,
+                            "column": 22,
+                            "durationMicroseconds": 31,
+                            "functionName": "cursorShape",
+                            "line": 467,
+                            "message": ""
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 18,
+                            "durationMicroseconds": 13,
+                            "functionName": "enabled",
+                            "line": 468,
+                            "message": "Cannot access value for name isFullScreenMode"
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 18,
+                            "durationMicroseconds": 9,
+                            "functionName": "visible",
+                            "line": 469,
+                            "message": "Cannot access value for name isFullScreenMode"
+                        },
+                        {
+                            "codegenResult": 0,
+                            "column": 20,
+                            "durationMicroseconds": 112,
+                            "functionName": "onPressed",
+                            "line": 470,
+                            "message": ""
+                        },
+                        {
+                            "codegenResult": 0,
+                            "column": 26,
+                            "durationMicroseconds": 49,
+                            "functionName": "right",
+                            "line": 465,
+                            "message": ""
+                        },
+                        {
+                            "codegenResult": 0,
+                            "column": 48,
+                            "durationMicroseconds": 66,
+                            "functionName": "bottom",
+                            "line": 465,
+                            "message": ""
+                        }
+                    ],
+                    "filePath": "C:/Users/user/Documents/iptv_player/Main.qml"
+                }
+            ],
+            "moduleId": "iptv_player(appiptv_player)"
+        }
+    ]
+}

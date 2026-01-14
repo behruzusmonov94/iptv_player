@@ -1,0 +1,76 @@
+{
+    "classes": [
+        {
+            "className": "PlaylistModel",
+            "lineNumber": 15,
+            "methods": [
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "filePath",
+                            "type": "QString"
+                        }
+                    ],
+                    "index": 1,
+                    "lineNumber": 34,
+                    "name": "loadPlaylist",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "category",
+                            "type": "QString"
+                        },
+                        {
+                            "name": "searchQuery",
+                            "type": "QString"
+                        }
+                    ],
+                    "index": 2,
+                    "lineNumber": 35,
+                    "name": "filterChannels",
+                    "returnType": "void"
+                }
+            ],
+            "object": true,
+            "properties": [
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 0,
+                    "lineNumber": 19,
+                    "name": "categories",
+                    "notify": "categoriesChanged",
+                    "read": "categories",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "QStringList",
+                    "user": false
+                }
+            ],
+            "qualifiedClassName": "PlaylistModel",
+            "signals": [
+                {
+                    "access": "public",
+                    "index": 0,
+                    "lineNumber": 40,
+                    "name": "categoriesChanged",
+                    "returnType": "void"
+                }
+            ],
+            "superClasses": [
+                {
+                    "access": "public",
+                    "name": "QAbstractListModel"
+                }
+            ]
+        }
+    ],
+    "inputFile": "playlistmodel.h",
+    "outputRevision": 69
+}
