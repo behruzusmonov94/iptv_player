@@ -234,7 +234,7 @@ Window {
                                     property bool isWindowMove: false
                                     property real minDragDistance: 50 // Minimum distance for channel switching
                                     property int lastSwitchedIndex: -1 // To prevent multiple switches during drag
-                                    property string dragMode: "" // "volume", "channel", "window"
+                                    property string dragMode: "" // "volume", "channel", "window", "channelList"
                                     property bool isDoubleClick: false // Track if double click happened
                                     
                                     // Function to switch to next channel
@@ -302,14 +302,24 @@ Window {
                                         // Don't process channel switching if:
                                         // 1. Double click happened
                                         // 2. Movement is very small (likely a click or double click, not a drag)
+                                        // 3. Channel list is showing (keep it visible)
                                         if (isDoubleClick || (deltaX < 10 && deltaY < 10)) {
                                             // Reset states and return - this was a click, not a drag
-                                            isVolumeDrag = false
-                                            isChannelDrag = false
-                                            isWindowMove = false
-                                            dragMode = ""
-                                            volumeOverlay.visible = false
-                                            lastSwitchedIndex = -1
+                                            // But keep channel list visible if it was opened
+                                            if (dragMode !== "channelList") {
+                                                isVolumeDrag = false
+                                                isChannelDrag = false
+                                                isWindowMove = false
+                                                dragMode = ""
+                                                volumeOverlay.visible = false
+                                                lastSwitchedIndex = -1
+                                            }
+                                            return
+                                        }
+                                        
+                                        // If channel list was opened, keep it visible (don't close on release)
+                                        if (dragMode === "channelList") {
+                                            // Keep channelsListOverlay visible
                                             return
                                         }
                                         
@@ -342,13 +352,15 @@ Window {
                                             }
                                         }
                                         
-                                        // Reset all states
-                                        isVolumeDrag = false
-                                        isChannelDrag = false
-                                        isWindowMove = false
-                                        dragMode = ""
-                                        volumeOverlay.visible = false
-                                        lastSwitchedIndex = -1
+                                        // Reset all states (except channel list)
+                                        if (dragMode !== "channelList") {
+                                            isVolumeDrag = false
+                                            isChannelDrag = false
+                                            isWindowMove = false
+                                            dragMode = ""
+                                            volumeOverlay.visible = false
+                                            lastSwitchedIndex = -1
+                                        }
                                     }
                                     
                                     onPositionChanged: (mouse) => {
@@ -364,8 +376,8 @@ Window {
                                         
                                         // Determine drag mode only once when threshold is reached
                                         if (dragMode === "") {
-                                            // Priority 1: Fullscreen + left side + horizontal = window move
-                                            if (isFullScreenMode && startX < width * 0.5) {
+                                            // Priority 1: Fullscreen + top 20% + horizontal = window move
+                                            if (isFullScreenMode && startY < height * 0.2) {
                                                 if (totalDeltaX > 30 && totalDeltaX > totalDeltaY * 1.2) {
                                                     dragMode = "window"
                                                     isWindowMove = true
@@ -374,15 +386,23 @@ Window {
                                                 }
                                             }
                                             
-                                            // Priority 2: Vertical drag = volume control
-                                            if (totalDeltaY > 15 && totalDeltaY > totalDeltaX) {
+                                            // Priority 2: Center area (30-70% width) + downward drag = channel list
+                                            if (startX > width * 0.3 && startX < width * 0.7 && 
+                                                totalDeltaY > 30 && totalDeltaY > totalDeltaX) {
+                                                dragMode = "channelList"
+                                                channelsListOverlay.visible = true
+                                            }
+                                            // Priority 3: Right side 30% + vertical drag = volume control
+                                            else if (startX > width * 0.7 && totalDeltaY > 15 && totalDeltaY > totalDeltaX) {
                                                 dragMode = "volume"
                                                 isVolumeDrag = true
                                                 volumeOverlay.visible = true
                                                 lastY = startY // Reset for accurate volume calculation
                                             }
-                                            // Priority 3: Horizontal drag (not fullscreen left side) = channel switch
-                                            else if (!(isFullScreenMode && startX < width * 0.5) && 
+                                            // Priority 4: Horizontal drag (not top 20% in fullscreen, not right 30% for volume, not center for list) = channel switch
+                                            else if (!(isFullScreenMode && startY < height * 0.2) && 
+                                                     !(startX > width * 0.7) &&
+                                                     !(startX > width * 0.3 && startX < width * 0.7) &&
                                                      totalDeltaX > minDragDistance && 
                                                      totalDeltaX > totalDeltaY * 1.5) {
                                                 dragMode = "channel"
@@ -398,8 +418,8 @@ Window {
                                             }
                                         }
                                         
-                                        // Handle volume control (only if volume mode is active)
-                                        if (dragMode === "volume" && isVolumeDrag) {
+                                        // Handle volume control (only if volume mode is active and in right 30%)
+                                        if (dragMode === "volume" && isVolumeDrag && startX > width * 0.7) {
                                             var delta = lastY - mouse.y
                                             var change = delta / height * 2.0
                                             
@@ -486,6 +506,103 @@ Window {
                                         elide: Text.ElideRight
                                         width: parent.width - 20
                                         horizontalAlignment: Text.AlignHCenter
+                                    }
+                                }
+                                
+                                // Channels List Overlay (shown when dragging down from center)
+                                Rectangle {
+                                    id: channelsListOverlay
+                                    anchors.fill: parent
+                                    color: "#ee000000" // Semi-transparent black background
+                                    visible: false
+                                    z: 100 // Above video but below other overlays
+                                    
+                                    // Close on click outside the list
+                                    MouseArea {
+                                        anchors.fill: parent
+                                        onClicked: channelsListOverlay.visible = false
+                                    }
+                                    
+                                    Rectangle {
+                                        anchors.centerIn: parent
+                                        width: Math.min(parent.width * 0.8, 600)
+                                        height: Math.min(parent.height * 0.7, 500)
+                                        color: "#2b2b2b"
+                                        radius: 10
+                                        border.color: "#444"
+                                        border.width: 2
+                                        
+                                        // Prevent clicks inside the list from closing the overlay
+                                        MouseArea {
+                                            anchors.fill: parent
+                                            onClicked: {} // Do nothing, just prevent event propagation
+                                        }
+                                        
+                                        ColumnLayout {
+                                            anchors.fill: parent
+                                            anchors.margins: 20
+                                            
+                                            Text {
+                                                text: "Kanallar ro'yxati (Channels List)"
+                                                color: "white"
+                                                font.bold: true
+                                                font.pixelSize: 20
+                                                Layout.alignment: Qt.AlignHCenter
+                                                Layout.bottomMargin: 10
+                                            }
+                                            
+                                            ScrollView {
+                                                Layout.fillWidth: true
+                                                Layout.fillHeight: true
+                                                
+                                                ListView {
+                                                    id: channelsOverlayListView
+                                                    model: playlistModel
+                                                    clip: true
+                                                    
+                                                    delegate: ItemDelegate {
+                                                        width: channelsOverlayListView.width
+                                                        height: 50
+                                                        
+                                                        Rectangle {
+                                                            anchors.fill: parent
+                                                            color: parent.highlighted ? "#0078d7" : (index % 2 === 0 ? "#333333" : "#2b2b2b")
+                                                            
+                                                            Text {
+                                                                anchors.left: parent.left
+                                                                anchors.leftMargin: 15
+                                                                anchors.verticalCenter: parent.verticalCenter
+                                                                text: model.name
+                                                                color: "white"
+                                                                font.pixelSize: 16
+                                                                elide: Text.ElideRight
+                                                                width: parent.width - 30
+                                                            }
+                                                        }
+                                                        
+                                                        highlighted: ListView.isCurrentItem || channelListView.currentIndex === index
+                                                        
+                                                        onClicked: {
+                                                            channelsOverlayListView.currentIndex = index
+                                                            channelListView.currentIndex = index
+                                                            var channelUrl = playlistModel.getChannelUrl(index)
+                                                            if (channelUrl.toString() !== "") {
+                                                                player.source = channelUrl
+                                                                player.play()
+                                                                channelOverlay.showChannel(index)
+                                                                channelsListOverlay.visible = false
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            
+                                            Button {
+                                                text: "Yopish (Close)"
+                                                Layout.fillWidth: true
+                                                onClicked: channelsListOverlay.visible = false
+                                            }
+                                        }
                                     }
                                 }
                             }
