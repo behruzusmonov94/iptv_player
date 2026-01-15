@@ -1,10 +1,13 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include <QQuickStyle>
 #include "playlistmodel.h"
 
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
+
+    QQuickStyle::setStyle("Fusion");
 
     qmlRegisterType<PlaylistModel>("iptv.player", 1, 0, "PlaylistModel");
 
