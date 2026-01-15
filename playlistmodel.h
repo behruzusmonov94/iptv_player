@@ -5,6 +5,8 @@
 #include <QString>
 #include <QList>
 #include <QUrl>
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
 
 struct Channel {
     QString name;
@@ -40,11 +42,18 @@ public:
 
 signals:
     void categoriesChanged();
+    void loadError(const QString &errorMessage);
+
+private slots:
+    void onNetworkReplyFinished(QNetworkReply *reply);
 
 private:
+    void parsePlaylistContent(const QByteArray &content);
+    
     QList<Channel> m_allChannels;
     QList<Channel> m_displayedChannels; // The ones currently visible in the view
     QStringList m_categories;
+    QNetworkAccessManager *m_networkManager;
 };
 
 #endif // PLAYLISTMODEL_H

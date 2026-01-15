@@ -31,6 +31,45 @@ Window {
 
     PlaylistModel {
         id: playlistModel
+        onLoadError: (errorMessage) => {
+            errorDialog.text = errorMessage
+            errorDialog.open()
+        }
+    }
+
+    Dialog {
+        id: errorDialog
+        title: "Xatolik (Error)"
+        anchors.centerIn: parent
+        width: 400
+        height: 150
+        
+        property string text: ""
+        
+        background: Rectangle {
+            color: "#2b2b2b"
+            border.color: "#444"
+            border.width: 1
+            radius: 5
+        }
+        
+        ColumnLayout {
+            anchors.fill: parent
+            anchors.margins: 20
+            
+            Text {
+                text: errorDialog.text
+                color: "white"
+                wrapMode: Text.WordWrap
+                Layout.fillWidth: true
+            }
+            
+            Button {
+                text: "OK"
+                Layout.alignment: Qt.AlignRight
+                onClicked: errorDialog.close()
+            }
+        }
     }
 
 
@@ -40,6 +79,66 @@ Window {
         nameFilters: ["Playlist files (*.m3u *.m3u8)", "All files (*)"]
         onAccepted: {
             playlistModel.loadPlaylist(selectedFile)
+        }
+    }
+
+    Dialog {
+        id: urlDialog
+        title: "URL orqali ochish (Open from URL)"
+        anchors.centerIn: parent
+        width: 600
+        height: 150
+        
+        property string urlText: ""
+        
+        background: Rectangle {
+            color: "#2b2b2b"
+            border.color: "#444"
+            border.width: 1
+            radius: 5
+        }
+        
+        ColumnLayout {
+            anchors.fill: parent
+            anchors.margins: 20
+            
+            TextField {
+                id: urlInput
+                Layout.fillWidth: true
+                placeholderText: "Playlist URL kiriting (Enter playlist URL)"
+                text: urlDialog.urlText
+                onTextChanged: urlDialog.urlText = text
+                color: "white"
+                background: Rectangle {
+                    color: "#1e1e1e"
+                    border.color: "#444"
+                    border.width: 1
+                    radius: 3
+                }
+            }
+            
+            RowLayout {
+                Layout.fillWidth: true
+                Layout.alignment: Qt.AlignRight
+                
+                Button {
+                    text: "Bekor qilish (Cancel)"
+                    onClicked: urlDialog.close()
+                }
+                
+                Button {
+                    text: "Yuklash (Load)"
+                    highlighted: true
+                    enabled: urlInput.text.trim() !== ""
+                    onClicked: {
+                        if (urlInput.text.trim() !== "") {
+                            playlistModel.loadPlaylist(urlInput.text.trim())
+                            urlDialog.close()
+                            urlInput.text = ""
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -101,11 +200,25 @@ Window {
                         ScrollBar.vertical: ScrollBar {}
                     }
 
-                    Button {
-                        text: "Pleylistni Ochish"
+                    RowLayout {
                         Layout.fillWidth: true
                         Layout.margins: 10
-                        onClicked: fileDialog.open()
+                        spacing: 10
+                        
+                        Button {
+                            text: "Fayldan ochish (Open File)"
+                            Layout.fillWidth: true
+                            onClicked: fileDialog.open()
+                        }
+                        
+                        Button {
+                            text: "URL orqali ochish (Open URL)"
+                            Layout.fillWidth: true
+                            onClicked: {
+                                urlDialog.urlText = ""
+                                urlDialog.open()
+                            }
+                        }
                     }
                 }
             }

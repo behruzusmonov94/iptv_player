@@ -2,10 +2,18 @@
 #include <QFile>
 #include <QTextStream>
 #include <QDebug>
+#include <QNetworkRequest>
+#include <QNetworkReply>
+#include <QUrl>
+#include <QSet>
+#include <algorithm>
 
 PlaylistModel::PlaylistModel(QObject *parent)
     : QAbstractListModel(parent)
+    , m_networkManager(new QNetworkAccessManager(this))
 {
+    connect(m_networkManager, &QNetworkAccessManager::finished,
+            this, &PlaylistModel::onNetworkReplyFinished);
 }
 
 int PlaylistModel::rowCount(const QModelIndex &parent) const
@@ -50,12 +58,21 @@ QStringList PlaylistModel::categories() const
 
 void PlaylistModel::loadPlaylist(const QString &filePath)
 {
-    beginResetModel();
-    m_allChannels.clear();
-    m_displayedChannels.clear();
-    m_categories.clear();
-
-    QString localPath = QUrl(filePath).toLocalFile();
+    QUrl url(filePath);
+    
+    // Check if it's a URL (http/https)
+    if (url.scheme() == "http" || url.scheme() == "https") {
+        // Load from URL
+        QNetworkRequest request(url);
+        request.setRawHeader("User-Agent", "IPTV Player");
+        QNetworkReply *reply = m_networkManager->get(request);
+        // Store the reply pointer for cleanup in onNetworkReplyFinished
+        reply->setProperty("originalUrl", filePath);
+        return;
+    }
+    
+    // Load from local file
+    QString localPath = url.toLocalFile();
     if (localPath.isEmpty()) {
         localPath = filePath;
     }
@@ -63,11 +80,39 @@ void PlaylistModel::loadPlaylist(const QString &filePath)
     QFile file(localPath);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         qWarning() << "Could not open playlist file:" << localPath;
-        endResetModel();
+        emit loadError(QString("Faylni ochib bo'lmadi: %1").arg(localPath));
         return;
     }
 
-    QTextStream in(&file);
+    QByteArray content = file.readAll();
+    file.close();
+    
+    parsePlaylistContent(content);
+}
+
+void PlaylistModel::onNetworkReplyFinished(QNetworkReply *reply)
+{
+    if (reply->error() != QNetworkReply::NoError) {
+        qWarning() << "Network error:" << reply->errorString();
+        emit loadError(QString("URL yuklab bo'lmadi: %1").arg(reply->errorString()));
+        reply->deleteLater();
+        return;
+    }
+
+    QByteArray content = reply->readAll();
+    reply->deleteLater();
+    
+    parsePlaylistContent(content);
+}
+
+void PlaylistModel::parsePlaylistContent(const QByteArray &content)
+{
+    beginResetModel();
+    m_allChannels.clear();
+    m_displayedChannels.clear();
+    m_categories.clear();
+
+    QTextStream in(content);
     QString line;
     QString currentName;
     QString currentCategory = "Boshqa (Others)"; // Default category
@@ -117,8 +162,6 @@ void PlaylistModel::loadPlaylist(const QString &filePath)
             }
         }
     }
-
-    file.close();
 
     // Sort categories
     m_categories = uniqueCategories.values();

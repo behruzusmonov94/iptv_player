@@ -7,6 +7,7 @@
 *****************************************************************************/
 
 #include "../../../../playlistmodel.h"
+#include <QtNetwork/QSslError>
 #include <QtCore/qmetatype.h>
 
 #include <QtCore/qtmochelpers.h>
@@ -41,6 +42,11 @@ template <> constexpr inline auto PlaylistModel::qt_create_metaobjectdata<qt_met
         "PlaylistModel",
         "categoriesChanged",
         "",
+        "loadError",
+        "errorMessage",
+        "onNetworkReplyFinished",
+        "QNetworkReply*",
+        "reply",
         "loadPlaylist",
         "filePath",
         "filterChannels",
@@ -56,26 +62,34 @@ template <> constexpr inline auto PlaylistModel::qt_create_metaobjectdata<qt_met
     QtMocHelpers::UintData qt_methods {
         // Signal 'categoriesChanged'
         QtMocHelpers::SignalData<void()>(1, 2, QMC::AccessPublic, QMetaType::Void),
-        // Method 'loadPlaylist'
-        QtMocHelpers::MethodData<void(const QString &)>(3, 2, QMC::AccessPublic, QMetaType::Void, {{
+        // Signal 'loadError'
+        QtMocHelpers::SignalData<void(const QString &)>(3, 2, QMC::AccessPublic, QMetaType::Void, {{
             { QMetaType::QString, 4 },
         }}),
+        // Slot 'onNetworkReplyFinished'
+        QtMocHelpers::SlotData<void(QNetworkReply *)>(5, 2, QMC::AccessPrivate, QMetaType::Void, {{
+            { 0x80000000 | 6, 7 },
+        }}),
+        // Method 'loadPlaylist'
+        QtMocHelpers::MethodData<void(const QString &)>(8, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { QMetaType::QString, 9 },
+        }}),
         // Method 'filterChannels'
-        QtMocHelpers::MethodData<void(const QString &, const QString &)>(5, 2, QMC::AccessPublic, QMetaType::Void, {{
-            { QMetaType::QString, 6 }, { QMetaType::QString, 7 },
+        QtMocHelpers::MethodData<void(const QString &, const QString &)>(10, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { QMetaType::QString, 11 }, { QMetaType::QString, 12 },
         }}),
         // Method 'getChannelUrl'
-        QtMocHelpers::MethodData<QUrl(int) const>(8, 2, QMC::AccessPublic, 0x80000000 | 9, {{
-            { QMetaType::Int, 10 },
+        QtMocHelpers::MethodData<QUrl(int) const>(13, 2, QMC::AccessPublic, 0x80000000 | 14, {{
+            { QMetaType::Int, 15 },
         }}),
         // Method 'getChannelName'
-        QtMocHelpers::MethodData<QString(int) const>(11, 2, QMC::AccessPublic, QMetaType::QString, {{
-            { QMetaType::Int, 10 },
+        QtMocHelpers::MethodData<QString(int) const>(16, 2, QMC::AccessPublic, QMetaType::QString, {{
+            { QMetaType::Int, 15 },
         }}),
     };
     QtMocHelpers::UintData qt_properties {
         // property 'categories'
-        QtMocHelpers::PropertyData<QStringList>(12, QMetaType::QStringList, QMC::DefaultPropertyFlags, 0),
+        QtMocHelpers::PropertyData<QStringList>(17, QMetaType::QStringList, QMC::DefaultPropertyFlags, 0),
     };
     QtMocHelpers::UintData qt_enums {
     };
@@ -98,17 +112,33 @@ void PlaylistModel::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _i
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
         case 0: _t->categoriesChanged(); break;
-        case 1: _t->loadPlaylist((*reinterpret_cast<std::add_pointer_t<QString>>(_a[1]))); break;
-        case 2: _t->filterChannels((*reinterpret_cast<std::add_pointer_t<QString>>(_a[1])),(*reinterpret_cast<std::add_pointer_t<QString>>(_a[2]))); break;
-        case 3: { QUrl _r = _t->getChannelUrl((*reinterpret_cast<std::add_pointer_t<int>>(_a[1])));
+        case 1: _t->loadError((*reinterpret_cast<std::add_pointer_t<QString>>(_a[1]))); break;
+        case 2: _t->onNetworkReplyFinished((*reinterpret_cast<std::add_pointer_t<QNetworkReply*>>(_a[1]))); break;
+        case 3: _t->loadPlaylist((*reinterpret_cast<std::add_pointer_t<QString>>(_a[1]))); break;
+        case 4: _t->filterChannels((*reinterpret_cast<std::add_pointer_t<QString>>(_a[1])),(*reinterpret_cast<std::add_pointer_t<QString>>(_a[2]))); break;
+        case 5: { QUrl _r = _t->getChannelUrl((*reinterpret_cast<std::add_pointer_t<int>>(_a[1])));
             if (_a[0]) *reinterpret_cast<QUrl*>(_a[0]) = std::move(_r); }  break;
-        case 4: { QString _r = _t->getChannelName((*reinterpret_cast<std::add_pointer_t<int>>(_a[1])));
+        case 6: { QString _r = _t->getChannelName((*reinterpret_cast<std::add_pointer_t<int>>(_a[1])));
             if (_a[0]) *reinterpret_cast<QString*>(_a[0]) = std::move(_r); }  break;
         default: ;
         }
     }
+    if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
+        switch (_id) {
+        default: *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType(); break;
+        case 2:
+            switch (*reinterpret_cast<int*>(_a[1])) {
+            default: *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType(); break;
+            case 0:
+                *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType::fromType< QNetworkReply* >(); break;
+            }
+            break;
+        }
+    }
     if (_c == QMetaObject::IndexOfMethod) {
         if (QtMocHelpers::indexOfMethod<void (PlaylistModel::*)()>(_a, &PlaylistModel::categoriesChanged, 0))
+            return;
+        if (QtMocHelpers::indexOfMethod<void (PlaylistModel::*)(const QString & )>(_a, &PlaylistModel::loadError, 1))
             return;
     }
     if (_c == QMetaObject::ReadProperty) {
@@ -139,14 +169,14 @@ int PlaylistModel::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 5)
+        if (_id < 7)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 5;
+        _id -= 7;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 5)
-            *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 5;
+        if (_id < 7)
+            qt_static_metacall(this, _c, _id, _a);
+        _id -= 7;
     }
     if (_c == QMetaObject::ReadProperty || _c == QMetaObject::WriteProperty
             || _c == QMetaObject::ResetProperty || _c == QMetaObject::BindableProperty
@@ -161,5 +191,11 @@ int PlaylistModel::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 void PlaylistModel::categoriesChanged()
 {
     QMetaObject::activate(this, &staticMetaObject, 0, nullptr);
+}
+
+// SIGNAL 1
+void PlaylistModel::loadError(const QString & _t1)
+{
+    QMetaObject::activate<void>(this, &staticMetaObject, 1, nullptr, _t1);
 }
 QT_WARNING_POP

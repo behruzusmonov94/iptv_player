@@ -2,7 +2,7 @@
     "classes": [
         {
             "className": "PlaylistModel",
-            "lineNumber": 15,
+            "lineNumber": 17,
             "methods": [
                 {
                     "access": "public",
@@ -12,8 +12,8 @@
                             "type": "QString"
                         }
                     ],
-                    "index": 1,
-                    "lineNumber": 34,
+                    "index": 3,
+                    "lineNumber": 36,
                     "name": "loadPlaylist",
                     "returnType": "void"
                 },
@@ -29,8 +29,8 @@
                             "type": "QString"
                         }
                     ],
-                    "index": 2,
-                    "lineNumber": 35,
+                    "index": 4,
+                    "lineNumber": 37,
                     "name": "filterChannels",
                     "returnType": "void"
                 },
@@ -42,9 +42,9 @@
                             "type": "int"
                         }
                     ],
-                    "index": 3,
+                    "index": 5,
                     "isConst": true,
-                    "lineNumber": 36,
+                    "lineNumber": 38,
                     "name": "getChannelUrl",
                     "returnType": "QUrl"
                 },
@@ -56,9 +56,9 @@
                             "type": "int"
                         }
                     ],
-                    "index": 4,
+                    "index": 6,
                     "isConst": true,
-                    "lineNumber": 37,
+                    "lineNumber": 39,
                     "name": "getChannelName",
                     "returnType": "QString"
                 }
@@ -70,7 +70,7 @@
                     "designable": true,
                     "final": false,
                     "index": 0,
-                    "lineNumber": 19,
+                    "lineNumber": 21,
                     "name": "categories",
                     "notify": "categoriesChanged",
                     "read": "categories",
@@ -86,8 +86,36 @@
                 {
                     "access": "public",
                     "index": 0,
-                    "lineNumber": 42,
+                    "lineNumber": 44,
                     "name": "categoriesChanged",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "errorMessage",
+                            "type": "QString"
+                        }
+                    ],
+                    "index": 1,
+                    "lineNumber": 45,
+                    "name": "loadError",
+                    "returnType": "void"
+                }
+            ],
+            "slots": [
+                {
+                    "access": "private",
+                    "arguments": [
+                        {
+                            "name": "reply",
+                            "type": "QNetworkReply*"
+                        }
+                    ],
+                    "index": 2,
+                    "lineNumber": 48,
+                    "name": "onNetworkReplyFinished",
                     "returnType": "void"
                 }
             ],
