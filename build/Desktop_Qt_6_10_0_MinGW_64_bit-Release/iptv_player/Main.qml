@@ -9,16 +9,36 @@ Window {
     id: mainWindow
     width: 1024
     height: 768
-    visible: true
+    // visible: true // Removed to avoid conflict with visibility binding
     title: qsTr("IPTV Player (Uzbek)")
     
     property bool isPinned: false
-    property bool isFullScreenMode: false
+    property bool isFramelessMode: false        // Toggled by Double-Click (Hides UI, Frameless)
+    property bool isMonitorFullScreen: false    // Toggled by F11/Ctrl+F (Real Fullscreen)
+    
+    // Helper to check if we should hide UI
+    readonly property bool isMinimalView: isFramelessMode || isMonitorFullScreen
+
     property bool sidebarVisible: true
     
-    flags: isFullScreenMode 
+    // Visibility: Only "Real" Fullscreen uses Window.FullScreen
+    visibility: isMonitorFullScreen ? Window.FullScreen : Window.Windowed
+    
+    // Flags: Both modes require frameless look. 
+    // If MonitorFullscreen, Qt handles borders usually, but FramelessWindowHint ensures no decorations.
+    flags: (isFramelessMode || isMonitorFullScreen)
            ? (Qt.Window | Qt.FramelessWindowHint | (isPinned ? Qt.WindowStaysOnTopHint : 0))
            : (Qt.Window | Qt.WindowTitleHint | Qt.WindowSystemMenuHint | Qt.WindowMinimizeButtonHint | Qt.WindowMaximizeButtonHint | Qt.WindowCloseButtonHint | (isPinned ? Qt.WindowStaysOnTopHint : 0))
+
+    Shortcut {
+        sequence: "F11"
+        onActivated: isMonitorFullScreen = !isMonitorFullScreen
+    }
+    
+    Shortcut {
+        sequence: "Ctrl+F"
+        onActivated: isMonitorFullScreen = !isMonitorFullScreen
+    }
     
     // Auto-maximize/restore if needed, or just let it occupy current size. 
     // User said "interface closes, full video shows", implying the window size might stay or fill screen. 
@@ -145,9 +165,254 @@ Window {
     StackView {
         id: stackView
         anchors.fill: parent
-        initialItem: categoryParams
+        initialItem: playlistSelectionComp
 
         // Define pages as Components
+        Component {
+            id: playlistSelectionComp
+            
+            Rectangle {
+                color: "#2b2b2b"
+                
+                ColumnLayout {
+                    anchors.fill: parent
+                    
+                    // Header
+                    Rectangle {
+                        Layout.fillWidth: true
+                        height: 50
+                        color: "#333"
+                        
+                        Text {
+                            anchors.centerIn: parent
+                            text: "Pleylistlar (Playlists)"
+                            color: "white"
+                            font.bold: true
+                            font.pixelSize: 18
+                        }
+                        
+                        Button {
+                            anchors.right: parent.right
+                            anchors.verticalCenter: parent.verticalCenter
+                            anchors.rightMargin: 10
+                            text: "Qo'shish (Add)"
+                            onClicked: addPlaylistDialog.openDialog()
+                        }
+                    }
+                    
+                    ListView {
+                        id: playlistListView
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                        clip: true
+                        model: playlistManager
+                        
+                        delegate: ItemDelegate {
+                            width: parent.width
+                            height: 60
+                            
+                            contentItem: RowLayout {
+                                spacing: 10
+                                
+                                ColumnLayout {
+                                    Layout.fillWidth: true
+                                    spacing: 2
+                                    
+                                    Text {
+                                        text: model.name
+                                        color: "white"
+                                        font.bold: true
+                                        font.pixelSize: 16
+                                    }
+                                    
+                                    Text {
+                                        text: model.source
+                                        color: "#aaa"
+                                        font.pixelSize: 12
+                                        elide: Text.ElideMiddle
+                                        Layout.fillWidth: true
+                                    }
+                                }
+                                
+                                Button {
+                                    text: "Edit"
+                                    onClicked: {
+                                        addPlaylistDialog.openDialog(index, model.name, model.source)
+                                    }
+                                }
+                                
+                                Button {
+                                    text: "O'chirish"
+
+                                    onClicked: {
+                                        deleteConfirmationDialog.deleteIndex = index
+                                        deleteConfirmationDialog.open()
+                                    }
+                                }
+                            }
+                            
+                            background: Rectangle {
+                                color: parent.highlighted ? "#0078d7" : "#333333"
+                                border.color: "#444"
+                                border.width: 1
+                            }
+                            
+                            onClicked: {
+                                playlistModel.loadPlaylist(model.source)
+                                stackView.push(categoryParams) // Go to categories
+                            }
+                        }
+                        ScrollBar.vertical: ScrollBar {}
+                    }
+                }
+
+                // Add/Edit Dialog
+                Dialog {
+                    id: addPlaylistDialog
+                    title: isEdit ? "Tahrirlash (Edit)" : "Yangi Pleylist (New Playlist)"
+                    anchors.centerIn: parent
+                    width: 400
+                    height: 250
+                    
+                    property bool isEdit: false
+                    property int editIndex: -1
+                    
+                    function openDialog(index = -1, name = "", source = "") {
+                        isEdit = (index !== -1)
+                        editIndex = index
+                        nameInput.text = name
+                        sourceInput.text = source
+                        open()
+                    }
+                    
+                    background: Rectangle {
+                        color: "#2b2b2b"
+                        border.color: "#444"
+                        radius: 5
+                    }
+                    
+                    ColumnLayout {
+                        anchors.fill: parent
+                        anchors.margins: 20
+                        spacing: 15
+                        
+                        TextField {
+                            id: nameInput
+                            Layout.fillWidth: true
+                            placeholderText: "Nomi (Name)"
+                            color: "white"
+                            background: Rectangle { color: "#1e1e1e"; border.color: "#444"; radius: 3 }
+                        }
+                        
+                        RowLayout {
+                             Layout.fillWidth: true
+                             TextField {
+                                 id: sourceInput
+                                 Layout.fillWidth: true
+                                 placeholderText: "URL yoki Fayl (URL or File)"
+                                 color: "white"
+                                 background: Rectangle { color: "#1e1e1e"; border.color: "#444"; radius: 3 }
+                             }
+                             Button {
+                                 text: "..."
+                                 onClicked: fileDialog.open()
+                                 
+                                 Connections {
+                                     target: fileDialog
+                                     function onAccepted() {
+                                         sourceInput.text = fileDialog.selectedFile
+                                     }
+                                 }
+                             }
+                        }
+                        
+                        RowLayout {
+                            Layout.fillWidth: true
+                            Layout.alignment: Qt.AlignRight
+                            
+                            Button {
+                                text: "Bekor qilish (Cancel)"
+                                onClicked: addPlaylistDialog.close()
+                            }
+                            
+                            Button {
+                                text: "Saqlash (Save)"
+                                highlighted: true
+                                enabled: nameInput.text !== "" && sourceInput.text !== ""
+                                onClicked: {
+                                    if (addPlaylistDialog.isEdit) {
+                                        playlistManager.editPlaylist(addPlaylistDialog.editIndex, nameInput.text, sourceInput.text)
+                                    } else {
+                                        playlistManager.addPlaylist(nameInput.text, sourceInput.text)
+                                    }
+                                    addPlaylistDialog.close()
+                                }
+                            }
+                        }
+                    }
+                }
+
+
+                // Delete Confirmation Dialog
+                Dialog {
+                    id: deleteConfirmationDialog
+                    title: "Tasdiqlash (Confirm Deletion)"
+                    anchors.centerIn: parent
+                    width: 350
+                    height: 150
+                    
+                    property int deleteIndex: -1
+                    
+                    background: Rectangle {
+                        color: "#2b2b2b"
+                        border.color: "#444"
+                        radius: 5
+                    }
+                    
+                    ColumnLayout {
+                        anchors.fill: parent
+                        anchors.margins: 20
+                        spacing: 15
+                        
+                        Text {
+                            text: "Siz haqiqatdan ham ushbu pleylistni o'chirmoqchimisiz? (Ar you sure you want to delete this playlist?)"
+                            color: "white"
+                            wrapMode: Text.WordWrap
+                            Layout.fillWidth: true
+                        }
+                        
+                        RowLayout {
+                             Layout.fillWidth: true
+                             Layout.alignment: Qt.AlignRight
+                             spacing: 15
+                             
+                             Button {
+                                 text: "Yo'q (No)"
+                                 onClicked: deleteConfirmationDialog.close()
+                             }
+                             
+                             Button {
+                                 text: "Ha (Yes)"
+                                 highlighted: true
+                                 
+                                 background: Rectangle {
+                                     color: parent.down ? "#ba0000" : "#d00000"
+                                     radius: 3
+                                 }
+                                 palette.buttonText: "white"
+                                 
+                                 onClicked: {
+                                     if (deleteConfirmationDialog.deleteIndex !== -1) {
+                                         playlistManager.removePlaylist(deleteConfirmationDialog.deleteIndex)
+                                     }
+                                     deleteConfirmationDialog.close()
+                                 }
+                             }
+                        }
+                    }
+                }
+            }
+        }
         Component {
             id: categoryParams
             
@@ -157,13 +422,30 @@ Window {
                 ColumnLayout {
                     anchors.fill: parent
                     
-                    Text {
-                        text: "Kategoriyalar (Categories)"
-                        color: "white"
-                        font.bold: true
-                        font.pixelSize: 20
-                        Layout.alignment: Qt.AlignHCenter
+                    RowLayout {
+                        Layout.fillWidth: true
                         Layout.margins: 20
+                        
+                        Button {
+                            icon.source: "icons/back.svg"
+                            icon.color: "white"
+                            display: AbstractButton.IconOnly
+                            background: Item {} // Transparent background
+                            
+                            onClicked: stackView.pop()
+                        }
+                        
+                        Text {
+                            text: "Kategoriyalar (Categories)"
+                            color: "white"
+                            font.bold: true
+                            font.pixelSize: 20
+                            Layout.fillWidth: true
+                            horizontalAlignment: Text.AlignHCenter
+                        }
+                        
+                        // Spacer to balance the back button
+                        Item { width: 40; height: 1 }
                     }
 
                     ListView {
@@ -200,26 +482,7 @@ Window {
                         ScrollBar.vertical: ScrollBar {}
                     }
 
-                    RowLayout {
-                        Layout.fillWidth: true
-                        Layout.margins: 10
-                        spacing: 10
-                        
-                        Button {
-                            text: "Fayldan ochish (Open File)"
-                            Layout.fillWidth: true
-                            onClicked: fileDialog.open()
-                        }
-                        
-                        Button {
-                            text: "URL orqali ochish (Open URL)"
-                            Layout.fillWidth: true
-                            onClicked: {
-                                urlDialog.urlText = ""
-                                urlDialog.open()
-                            }
-                        }
-                    }
+
                 }
             }
         }
@@ -246,7 +509,7 @@ Window {
                     Layout.fillWidth: true
                     height: 50
                     color: "#333"
-                    visible: !isFullScreenMode
+                    visible: !isMinimalView
                     
                     RowLayout {
                        anchors.fill: parent
@@ -290,7 +553,7 @@ Window {
                             SplitView.minimumWidth: 200
                             SplitView.preferredWidth: 300
                             color: "#2b2b2b"
-                            visible: mainWindow.sidebarVisible && !mainWindow.isFullScreenMode
+                            visible: mainWindow.sidebarVisible && !mainWindow.isMinimalView
 
                             ListView {
                                 id: channelListView
@@ -299,7 +562,7 @@ Window {
                                 clip: true
 
                                 delegate: ItemDelegate {
-                                    width: parent.width
+                                    width: ListView.view.width
                                     text: model.name
                                     
                                     contentItem: Text {
@@ -490,7 +753,7 @@ Window {
                                         // Determine drag mode only once when threshold is reached
                                         if (dragMode === "") {
                                             // Priority 1: Fullscreen + top 20% + horizontal = window move
-                                            if (isFullScreenMode && startY < height * 0.2) {
+                                            if (isMinimalView && startY < height * 0.2) {
                                                 if (totalDeltaX > 30 && totalDeltaX > totalDeltaY * 1.2) {
                                                     dragMode = "window"
                                                     isWindowMove = true
@@ -513,7 +776,7 @@ Window {
                                                 lastY = startY // Reset for accurate volume calculation
                                             }
                                             // Priority 4: Horizontal drag (not top 20% in fullscreen, not right 30% for volume, not center for list) = channel switch
-                                            else if (!(isFullScreenMode && startY < height * 0.2) && 
+                                            else if (!(isMinimalView && startY < height * 0.2) && 
                                                      !(startX > width * 0.7) &&
                                                      !(startX > width * 0.3 && startX < width * 0.7) &&
                                                      totalDeltaX > minDragDistance && 
@@ -540,7 +803,6 @@ Window {
                                             if (newVol > 1.0) newVol = 1.0
                                             if (newVol < 0.0) newVol = 0.0
                                             
-                                            player.audioOutput.volume = newVol
                                             volumeSlider.value = newVol
                                             
                                             lastY = mouse.y
@@ -552,7 +814,7 @@ Window {
                                     
                                     onDoubleClicked: {
                                         isDoubleClick = true // Set flag to prevent channel switching
-                                        isFullScreenMode = !isFullScreenMode
+                                        isFramelessMode = !isFramelessMode
                                     }
                                 }
 
@@ -734,7 +996,7 @@ Window {
                         Layout.fillWidth: true
                         height: 60
                         color: "#1e1e1e"
-                        visible: !isFullScreenMode
+                        visible: !isMinimalView
 
                         RowLayout {
                             anchors.fill: parent
@@ -822,15 +1084,17 @@ Window {
     }
 
     // frameless resizing handles
-    // Only active when isFullScreenMode is true.
+    // Only active when isMinimalView is true (Frameless or Fullscreen)
+    // Note: In Window.FullScreen, these might not be needed or might act weird, but it's safe to have them if the OS allows resizing 
+    // (though usually Fullscreen is fixed).
     
     // Right Edge
     MouseArea {
         anchors { right: parent.right; top: parent.top; bottom: parent.bottom }
         width: 10
         cursorShape: Qt.SizeHorCursor
-        enabled: isFullScreenMode
-        visible: isFullScreenMode
+        enabled: isMinimalView
+        visible: isMinimalView
         onPressed: {
             mainWindow.startSystemResize(Qt.RightEdge)
         }
@@ -841,8 +1105,8 @@ Window {
         anchors { left: parent.left; top: parent.top; bottom: parent.bottom }
         width: 10
         cursorShape: Qt.SizeHorCursor
-        enabled: isFullScreenMode
-        visible: isFullScreenMode
+        enabled: isMinimalView
+        visible: isMinimalView
         onPressed: {
             mainWindow.startSystemResize(Qt.LeftEdge)
         }
@@ -853,8 +1117,8 @@ Window {
         anchors { left: parent.left; right: parent.right; bottom: parent.bottom }
         height: 10
         cursorShape: Qt.SizeVerCursor
-        enabled: isFullScreenMode
-        visible: isFullScreenMode
+        enabled: isMinimalView
+        visible: isMinimalView
         onPressed: {
             mainWindow.startSystemResize(Qt.BottomEdge)
         }
@@ -865,8 +1129,8 @@ Window {
         anchors { left: parent.left; right: parent.right; top: parent.top }
         height: 10
         cursorShape: Qt.SizeVerCursor
-        enabled: isFullScreenMode
-        visible: isFullScreenMode
+        enabled: isMinimalView
+        visible: isMinimalView
         onPressed: {
             mainWindow.startSystemResize(Qt.TopEdge)
         }
@@ -877,8 +1141,8 @@ Window {
         anchors { right: parent.right; bottom: parent.bottom }
         width: 20; height: 20
         cursorShape: Qt.SizeFDiagCursor
-        enabled: isFullScreenMode
-        visible: isFullScreenMode
+        enabled: isMinimalView
+        visible: isMinimalView
         onPressed: {
             mainWindow.startSystemResize(Qt.RightEdge | Qt.BottomEdge)
         }

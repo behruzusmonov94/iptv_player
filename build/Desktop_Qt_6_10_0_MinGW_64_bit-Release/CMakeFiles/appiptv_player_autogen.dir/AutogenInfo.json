@@ -924,6 +924,12 @@
 	"HEADERS" : 
 	[
 		[
+			"C:/Users/user/Documents/iptv_player/playlistmanager.h",
+			"MU",
+			"EWIEGA46WW/moc_playlistmanager.cpp",
+			null
+		],
+		[
 			"C:/Users/user/Documents/iptv_player/playlistmodel.h",
 			"MU",
 			"EWIEGA46WW/moc_playlistmodel.cpp",
@@ -1028,6 +1034,7 @@
 	"SOURCES" : 
 	[
 		[ "C:/Users/user/Documents/iptv_player/main.cpp", "MU", null ],
+		[ "C:/Users/user/Documents/iptv_player/playlistmanager.cpp", "MU", null ],
 		[ "C:/Users/user/Documents/iptv_player/playlistmodel.cpp", "MU", null ]
 	],
 	"UIC_OPTIONS" : [],

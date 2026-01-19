@@ -4,6 +4,8 @@ set(working_dir "C:/Users/user/Documents/iptv_player")
 set(src_and_dest_list
     "C:/Users/user/Documents/iptv_player/Main.qml"
     "C:/Users/user/Documents/iptv_player/build/Desktop_Qt_6_10_0_MinGW_64_bit-Release/iptv_player/Main.qml"
+    "C:/Users/user/Documents/iptv_player/icons/iptv.png"
+    "C:/Users/user/Documents/iptv_player/build/Desktop_Qt_6_10_0_MinGW_64_bit-Release/iptv_player/icons/iptv.png"
     "C:/Users/user/Documents/iptv_player/icons/play.svg"
     "C:/Users/user/Documents/iptv_player/build/Desktop_Qt_6_10_0_MinGW_64_bit-Release/iptv_player/icons/play.svg"
     "C:/Users/user/Documents/iptv_player/icons/pause.svg"

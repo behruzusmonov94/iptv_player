@@ -12,12 +12,15 @@ qt_add_executable(appiptv_player
     main.cpp
     playlistmodel.cpp
     playlistmodel.h
+    playlistmanager.cpp
+    playlistmanager.h
 )
 
 qt_add_qml_module(appiptv_player
     URI iptv_player
     QML_FILES
         Main.qml
+        icons/iptv.png
         icons/play.svg
         icons/pause.svg
         icons/stop.svg
