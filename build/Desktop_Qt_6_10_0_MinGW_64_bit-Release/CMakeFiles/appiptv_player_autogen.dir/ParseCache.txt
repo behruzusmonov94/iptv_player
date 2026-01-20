@@ -730,6 +730,6 @@ C:/Users/user/Documents/iptv_player/playlistmodel.h
  mdp:C:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/wchar.h
  mdp:C:/Users/user/Documents/iptv_player/build/Desktop_Qt_6_10_0_MinGW_64_bit-Release/appiptv_player_autogen/moc_predefs.h
  mdp:C:/Users/user/Documents/iptv_player/playlistmodel.h
-C:/Users/user/Documents/iptv_player/playlistmodel.cpp
 C:/Users/user/Documents/iptv_player/main.cpp
+C:/Users/user/Documents/iptv_player/playlistmodel.cpp
 C:/Users/user/Documents/iptv_player/playlistmanager.cpp
